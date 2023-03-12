@@ -1,15 +1,12 @@
-import { useQuery } from 'react-query';
-import { fetchIssues } from './api';
-import './App.css';
-import Header from './Header';
+import "./App.css";
+import Header from "./components/Header";
+import IssueBoxes from "./components/IssueBoxes";
 
 function App() {
-  const { data, isLoading } = useQuery(["info"], () =>
-  fetchIssues());
-
-return (
+  return (
     <>
       <Header />
+      <IssueBoxes />
     </>
   );
 }

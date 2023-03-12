@@ -4,14 +4,15 @@ const octokit = new Octokit({
   auth: process.env.PERSONAL_ACCESS_TOKEN,
 });
 
-export async function fetchIssues() {
+export async function fetchIssues(perPage: number) {
   const response = await octokit.issues.listForRepo({
-    owner: "angular",
-    repo: "angular-cli",
+    owner: "Angular",
+    repo: "Angular-cli",
+    sort: "comments",
+    direction: "desc",
+    per_page: perPage,
   });
 
-  const issues = response.data;
-
-  console.log(issues);
+  return response.data;
 }
 
