@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { fetchIssues } from "../api";
 import { pageAtom, renderedDataAtom } from "../atom";
+import formatDate from "../formatDate";
 import Footer from "./Footer";
 
 const Boxes = styled.div`
@@ -128,7 +129,7 @@ function IssueBoxes() {
                 </BoxHeader>
                 <BoxMeta>
                   <Writer>작성자: {data.user?.login}</Writer>
-                  <CreatedAt>작성일: {data.updated_at}</CreatedAt>
+                  <CreatedAt>작성일: {formatDate(data.updated_at)}</CreatedAt>
                 </BoxMeta>
                 <CommentsInfo>코멘트: {data.comments}</CommentsInfo>
               </IssueBox>

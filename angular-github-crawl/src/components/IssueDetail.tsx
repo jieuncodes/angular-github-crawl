@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { fetchIssueDetail } from "../api";
+import formatDate from "../formatDate";
 
 interface IUser {
   avatar_url: string;
@@ -76,7 +77,9 @@ function IssueDetail() {
         <IssueTitle>{issueData?.title}</IssueTitle>
         <IssueMeta>
           <Writer>작성자: {issueData?.user.login}</Writer>
-          <CreatedAt>작성일: {issueData?.updated_at}</CreatedAt>
+          <CreatedAt>
+            작성일: {formatDate(issueData?.updated_at || "")}
+          </CreatedAt>
         </IssueMeta>
         <CommentsInfo>코멘트: {issueData?.comments}</CommentsInfo>
       </IssueHeader>
