@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/angular-github-crawl/static/css/main.5671aea5.css",
-    "main.js": "/angular-github-crawl/static/js/main.21a9c4ae.js",
+    "main.js": "/angular-github-crawl/static/js/main.e27cb126.js",
     "index.html": "/angular-github-crawl/index.html",
     "main.5671aea5.css.map": "/angular-github-crawl/static/css/main.5671aea5.css.map",
-    "main.21a9c4ae.js.map": "/angular-github-crawl/static/js/main.21a9c4ae.js.map"
+    "main.e27cb126.js.map": "/angular-github-crawl/static/js/main.e27cb126.js.map"
   },
   "entrypoints": [
     "static/css/main.5671aea5.css",
-    "static/js/main.21a9c4ae.js"
+    "static/js/main.e27cb126.js"
   ]
 }
