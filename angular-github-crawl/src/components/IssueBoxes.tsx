@@ -86,7 +86,11 @@ interface IBoxData {
 
 function IssueBoxes() {
   const [page, setPage] = useRecoilState(pageAtom);
-  const { data, isLoading } = useQuery([page], () => fetchIssues(page));
+  const { data, isLoading, isSuccess } = useQuery(
+    [page],
+    () => fetchIssues(page),
+    { cacheTime: 1000 * 60 * 60 }
+  );
   const [renderedData, setRenderedData] = useRecoilState(renderedDataAtom);
   const loadBtn = document.querySelector(".load-btn") as HTMLButtonElement;
   const boxesRef = useRef<HTMLDivElement>(null);
@@ -141,7 +145,7 @@ function IssueBoxes() {
             <LoadingBox key={data.id}>
               <span>issue 10개 로딩 시작</span>
             </LoadingBox>
-          ) : data.isAdBanner ? (
+          ) : data.isAdBanner && isSuccess ? (
             <a href="https://thingsflow.com/ko/home" key={data.id}>
               <AdBox>
                 <img src="https://hellobot-test.s3.ap-northeast-2.amazonaws.com/image/01fdd797-0477-4717-8d70-8551150463f7" />
