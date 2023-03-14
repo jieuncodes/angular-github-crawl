@@ -17,7 +17,7 @@ const Boxes = styled.div`
 `;
 const IssueBox = styled.div`
   border: 1px solid;
-  width: 90%;
+  width: 500px;
   min-height: 80px;
   display: grid;
   grid-template-columns: 3fr 1fr;

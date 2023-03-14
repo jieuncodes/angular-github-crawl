@@ -1,7 +1,7 @@
 import { Octokit } from "@octokit/rest";
 
 const octokit = new Octokit({
-  auth: process.env.PERSONAL_ACCESS_TOKEN,
+  auth: process.env.REACT_APP_PERSONAL_ACCESS_TOKEN,
 });
 
 export async function fetchIssues(page: number) {
