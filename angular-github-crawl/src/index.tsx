@@ -16,7 +16,9 @@ root.render(
   <React.StrictMode>
     <RecoilRoot>
       <QueryClientProvider client={client}>
-        <RouterProvider router={router} />
+        <HashRouter>
+          <RouterProvider router={router} />
+        </HashRouter>
       </QueryClientProvider>
     </RecoilRoot>
   </React.StrictMode>
