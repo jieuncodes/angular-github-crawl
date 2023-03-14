@@ -9,8 +9,3 @@ export const renderedDataAtom = atom<any>({
     key:"renderedIssues",
     default:[],
 });
-
-export const repoOwnerAtom = atom({
-    key:"owner",
-    default: "",
-})

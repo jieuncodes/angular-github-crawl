@@ -86,7 +86,7 @@ function IssueDetail() {
         </IssueMeta>
         <CommentsInfo>코멘트: {issueData?.comments}</CommentsInfo>
       </IssueHeader>
-      <IssueBody></IssueBody>
+      <IssueBody>{issueData?.body}</IssueBody>
     </IssueDetailArea>
   );
 }
