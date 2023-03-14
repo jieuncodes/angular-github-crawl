@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { Octokit } from "@octokit/rest";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { fetchIssueDetail } from "../api";
 
-const octokit = new Octokit({
-  auth: process.env.PERSONAL_ACCESS_TOKEN,
-});
 interface IUser {
   avatar_url: string;
   login: string;
@@ -31,7 +29,7 @@ const IssueHeader = styled.div`
   grid-template-areas:
     "avatar num title comment"
     "avatar meta meta comment";
-    font-size: 15px;
+  font-size: 15px;
 `;
 const WriterProfile = styled.div`
   grid-area: avatar;
@@ -62,14 +60,11 @@ function IssueDetail() {
   const [issueData, setIssueData] = useState<IIssueData>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await octokit.rest.issues.get({
-        owner: "Angular",
-        repo: "Angular-cli",
-        issue_number: Number(id),
-      });
-      setIssueData(response.data as IIssueData);
-    };
+    async function fetchData() {
+      const data = await fetchIssueDetail(id || "");
+      setIssueData(data as IIssueData);
+      return data;
+    }
     fetchData();
   }, [id]);
   return (

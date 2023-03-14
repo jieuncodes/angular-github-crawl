@@ -66,15 +66,15 @@ function IssueBoxes() {
 
   const handleLoadClick = async () => {
     if (data?.length == 0) {
-        const endBox = { isEnd: true, id: "end" };
-        const newRenderedData = [...renderedData, endBox];
-        setRenderedData(newRenderedData);
-        loadBtn.disabled = true;
-        setTimeout(() => {
-          boxes?.scrollIntoView({ behavior: "smooth", block: "end"});
-        }, 300);
-        return;
-    }    
+      const endBox = { isEnd: true, id: "end" };
+      const newRenderedData = [...renderedData, endBox];
+      setRenderedData(newRenderedData);
+      loadBtn.disabled = true;
+      setTimeout(() => {
+        boxes?.scrollIntoView({ behavior: "smooth", block: "end" });
+      }, 300);
+      return;
+    }
     setLoading(true);
     const loadingBox = {
       isLoadingBanner: true,
@@ -90,11 +90,10 @@ function IssueBoxes() {
     setRenderedData(newRenderedData);
     setLoading(false);
     setTimeout(() => {
-      boxes?.scrollIntoView({ behavior: "smooth", block: "end"});
+      boxes?.scrollIntoView({ behavior: "smooth", block: "end" });
     }, 300);
     setPage(page + 1);
-};
- 
+  };
 
   const handleResetClick = () => {
     setPage(0);
@@ -122,7 +121,7 @@ function IssueBoxes() {
             </EndBox>
           ) : (
             <Link to={`/issue/${data.number}`} key={data.id}>
-              <IssueBox >
+              <IssueBox>
                 <BoxHeader>
                   <IssueNum>#{data.number}</IssueNum>
                   <IssueTitle>{data.title}</IssueTitle>
