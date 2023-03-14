@@ -1,7 +1,8 @@
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { repoOwnerAtom } from "../atom";
 
-function Header() {
-  const HeaderArea = styled.div`
+const HeaderArea = styled.div`
     display: flex;
     gap: 5px;
     height: 50px;
@@ -12,10 +13,12 @@ function Header() {
     top: 0;
     background-color: white;
   `;
+function Header() {
+  const [owner, setOwner]=useRecoilState(repoOwnerAtom);
 
   const OrganizationName = "Angular";
   const RepositoryName = "Angular-repo";
-
+    
   return (
     <HeaderArea>
       <span>{OrganizationName}</span>

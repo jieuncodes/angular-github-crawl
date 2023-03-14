@@ -2,30 +2,33 @@ import styled from "styled-components";
 
 interface FooterProps {
     handleLoadClick: () => void;
+    handleResetClick: () => void;
 }
 
-function Footer({handleLoadClick}: FooterProps) {
-  const FooterArea = styled.div`
+const FooterArea = styled.div`
     display: flex;
     gap: 5px;
+    position:fixed;
+    bottom:0;
     height: 30px;
     width: 100%;
     margin-top: 20px;
     justify-content: space-evenly;
     align-items: center;
     border-top: 1px solid;
-    bottom: 0;
-    position:sticky;
     background-color: white;
+    z-index: 10;
   `;
 
   const LoadBtn = styled.button``;
   const ResetBtn = styled.button``;
 
+function Footer({handleLoadClick, handleResetClick}: FooterProps) {
+  
   return (
     <FooterArea>
-      <LoadBtn onClick={handleLoadClick}>load</LoadBtn>
-      <ResetBtn>초기화</ResetBtn>
+      <LoadBtn onClick={handleLoadClick} className="load-btn">load</LoadBtn>
+      <ResetBtn onClick={handleResetClick}>초기화</ResetBtn>
     </FooterArea>
   );
 }
