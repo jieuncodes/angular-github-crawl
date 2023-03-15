@@ -88,7 +88,7 @@ function IssueBoxes() {
                 <BoxHeader>
                   <IssueNum>#{data.number}</IssueNum>
                   <IssueTitle>{data.title}</IssueTitle>
-                </BoxHeader>
+                </BoxHeader> 
                 <BoxMeta>
                   <Writer>작성자: {data.user?.login}</Writer>
                   <CreatedAt>

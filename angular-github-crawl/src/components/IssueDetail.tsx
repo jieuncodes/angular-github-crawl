@@ -53,7 +53,7 @@ const CreatedAt = styled.span``;
 const CommentsInfo = styled.span`
   grid-area: comment;
 `;
-const IssueBody = styled.div``;
+const IssueBody = styled.pre``;
 
 function IssueDetail() {
   const { id } = useParams();
