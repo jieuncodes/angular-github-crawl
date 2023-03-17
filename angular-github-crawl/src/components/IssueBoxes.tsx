@@ -1,13 +1,20 @@
-import { Key, useRef } from "react";
+import AdjustIcon from '@mui/icons-material/Adjust';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import { Key, useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import styled from "styled-components";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { fetchIssues } from "../api";
-import { pageAtom, renderedDataAtom } from "../atom";
+import { issueStateAtom, issueStateSelector, pageAtom, renderedDataAtom } from "../atom";
 import formatDate from "../formatDate";
+import { IssueState } from "../styles/Header";
 import { AdBox, Boxes, BoxHeader, BoxMeta, CommentsInfo, CreatedAt, EndBox, IssueBox, IssueNum, IssueTitle, LoadingCover, Writer } from "../styles/IssueBoxes";
+import ShortenedText from '../util/ShortendText';
 import Footer from "./Footer";
+const loadBtn = document.querySelector(".load-btn") as HTMLButtonElement;
+
 
 interface IBoxData {
   isAdBanner: boolean;
@@ -20,9 +27,12 @@ interface IBoxData {
   };
   updated_at?: string;
   comments?: string;
+  state: string;
+  state_reason: string;
 }
 
 function IssueBoxes() {
+  const boxesRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useRecoilState(pageAtom);
   const { data, isLoading, isSuccess } = useQuery(
     [page],
@@ -30,8 +40,12 @@ function IssueBoxes() {
     { cacheTime: 1000 * 60 * 60 }
   );
   const [renderedData, setRenderedData] = useRecoilState(renderedDataAtom);
-  const loadBtn = document.querySelector(".load-btn") as HTMLButtonElement;
-  const boxesRef = useRef<HTMLDivElement>(null);
+  const [filteredData, setFilteredData] = useRecoilState(issueStateSelector);
+  const [issueState, setIssueState] = useRecoilState(issueStateAtom);
+
+  useEffect(()=>{
+    setRenderedData(filteredData);
+  }, [issueState]);
 
   const handleLoadClick = async () => {
     if (data?.length === 0) {
@@ -52,6 +66,7 @@ function IssueBoxes() {
       adBox,
     ];
     setRenderedData(newRenderedData);
+
     setTimeout(() => {
       boxesRef?.current?.scrollIntoView({ behavior: "smooth", block: "end" });
     }, 300);
@@ -61,9 +76,9 @@ function IssueBoxes() {
   const handleResetClick = () => {
     setPage(0);
     setRenderedData([]);
+    setIssueState("open");
     loadBtn.disabled = false;
   };
-
   return (
     <>
       <Boxes ref={boxesRef} className="boxes">
@@ -72,7 +87,8 @@ function IssueBoxes() {
             <span>issue 10개 로딩 시작</span>
           </LoadingCover>
         ) : null}
-        {renderedData.map((data: IBoxData) => data.isAdBanner && isSuccess ? (
+        {renderedData.map((data: IBoxData) =>
+          data.isAdBanner && isSuccess ? (
             <a href="https://thingsflow.com/ko/home" key={data.id}>
               <AdBox>
                 <img src="https://hellobot-test.s3.ap-northeast-2.amazonaws.com/image/01fdd797-0477-4717-8d70-8551150463f7" />
@@ -83,19 +99,33 @@ function IssueBoxes() {
               <span>No More Issues</span>
             </EndBox>
           ) : (
-            <Link to={`/issue/${data.number}`} key={data.id} style={{ display: "flex", justifyContent: "center" }}>
+            <Link
+              to={`/issue/${data.number}`}
+              key={data.id}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
               <IssueBox>
                 <BoxHeader>
-                  <IssueNum>#{data.number}</IssueNum>
-                  <IssueTitle>{data.title}</IssueTitle>
-                </BoxHeader> 
+                  <IssueState>
+                    {data.state == "open" ? (
+                      <AdjustIcon color="success" />
+                    ) : data.state == "closed" ? (
+                      data.state_reason == "completed" ? (
+                        <CheckCircleOutlineIcon color="secondary" />
+                      ) : (
+                        <RemoveCircleOutlineIcon />
+                      )
+                    ) : null}
+                  </IssueState>
+                  <IssueTitle>
+                    {ShortenedText(data?.title || "")}
+                    <IssueNum>#{data.number}</IssueNum>
+                  </IssueTitle>
+                  <CreatedAt><span>{formatDate(data.updated_at || "")}</span></CreatedAt>
+                </BoxHeader>
                 <BoxMeta>
-                  <Writer>작성자: {data.user?.login}</Writer>
-                  <CreatedAt>
-                    작성일: {formatDate(data.updated_at || "")}
-                  </CreatedAt>
+                  <CommentsInfo><ChatBubbleOutlineIcon fontSize='inherit'/> {data.comments}</CommentsInfo>
                 </BoxMeta>
-                <CommentsInfo>코멘트: {data.comments}</CommentsInfo>
               </IssueBox>
             </Link>
           )

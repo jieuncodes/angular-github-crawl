@@ -10,7 +10,7 @@ export async function fetchIssues(page: number) {
     repo: "Angular-cli",
     sort: "comments",
     direction: "desc",
-    state: "open",
+    state: "all",
     per_page: 10,
     page: page + 1,
   });
